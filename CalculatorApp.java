@@ -3,7 +3,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-//to extend class swing:)
 public class CalculatorApp extends JFrame implements ActionListener {
     private JTextField number1Field, number2Field, resultField;
 
@@ -43,12 +42,38 @@ public class CalculatorApp extends JFrame implements ActionListener {
         mulButton.addActionListener(this);
         divButton.addActionListener(this);
     }
-}
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        try {
+            double num1 = Double.parseDouble(number1Field.getText());
+            double num2 = Double.parseDouble(number2Field.getText());
+            double result = 0.0;
 
-public static void main(String[] args) {
-    SwingUtilities.invokeLater(() -> {
-        CalculatorApp calculatorApp = new CalculatorApp();
-        calculatorApp.setVisible(true);
-    });
+            // Perform the operation based on the button clicked
+            if (e.getActionCommand().equals("Add")) {
+                result = num1 + num2;
+            } else if (e.getActionCommand().equals("Subtract")) {
+                result = num1 - num2;
+            } else if (e.getActionCommand().equals("Multiply")) {
+                result = num1 * num2;
+            } else if (e.getActionCommand().equals("Divide")) {
+                result = num1 / num2;
+            }
+
+            // Display the result
+            resultField.setText(String.valueOf(result));
+        } catch (NumberFormatException ex) {
+            resultField.setText("Invalid input");
+        } catch (ArithmeticException ex) {
+            resultField.setText("Cannot divide by zero");
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            CalculatorApp calculatorApp = new CalculatorApp();
+            calculatorApp.setVisible(true);
+        });
+    }
 }
